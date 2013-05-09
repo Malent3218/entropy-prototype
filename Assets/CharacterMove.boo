@@ -42,7 +42,7 @@ class CharacterMove (MonoBehaviour):
 		if Physics.Raycast(rbody.position, Vector3.down, 1.2) and Input.GetButtonDown ("Jump"):
 			rbody.velocity.y += jumpSpeed
 			
-		if rbody.position.y < 0:
+		if rbody.position.y < -5:
 			Application.LoadLevel(Application.loadedLevel)
 	
 	def OnCollisionEnter (collision as Collision):

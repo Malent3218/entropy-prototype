@@ -28,12 +28,12 @@ class TerrainController (MonoBehaviour):
 		matterUsed = 0
 	
 	def Update ():
-		if leapController.GetComponent(LeapController).startTouch and matterLeft > 0:
+		if /*leapController.GetComponent(LeapController).startTouch*/ Input.GetButtonDown ("Make") and matterLeft > 0:
 			initPos = GetMousePos()
 			temp = GameObject.Instantiate (obj, Vector3(initPos.x,initPos.y,initPos.z+50), obj.transform.rotation)
 			objs.Push (temp)
 			//matterLeft -= 200 * Time.deltaTime
-		elif leapController.GetComponent(LeapController).getTouch and matterLeft > 0:
+		elif /*leapController.GetComponent(LeapController).getTouch*/ Input.GetButton ("Make") and matterLeft > 0:
 			currObj as GameObject = objs[objs.Count-1]
 			if chaos.transform.position.x + 21 > initPos.x:
 				currObj.transform.localPosition += Vector3(chaos.transform.position.x - initPos.x + 21,0,0)
@@ -45,7 +45,7 @@ class TerrainController (MonoBehaviour):
 			currObj.transform.localScale = scale
 			matterLeft -= 200 * (scale.x-prevScale.x) * Time.deltaTime
 			matterUsed += 200 * (scale.x-prevScale.x) * Time.deltaTime
-		elif leapController.GetComponent(LeapController).endTouch:
+		elif /*leapController.GetComponent(LeapController).endTouch*/ Input.GetButtonUp ("Make"):
 			currObj = objs[objs.Count-1]
 			/*hitInfo as RaycastHit
 			currObj.SweepTest(transform.forward,hitInfo,-50)
@@ -56,7 +56,7 @@ class TerrainController (MonoBehaviour):
 			else:*/
 			currObj.transform.Translate(Vector3.forward*(-50))
 			matterUsed = 0
-		elif not leapController.GetComponent(LeapController).getTouch:
+		elif /*not leapController.GetComponent(LeapController).getTouch*/not Input.GetButton ("Make"):
 			matterLeft += 40 * Time.deltaTime
 			if matterLeft > 100:
 				matterLeft = 100
@@ -65,8 +65,8 @@ class TerrainController (MonoBehaviour):
 			objs.RemoveAt (0)
 	
 	def GetMousePos() as Vector3:
-		//screenPos = Input.mousePosition
-		screenPos = leapController.GetComponent(LeapController).Pos
+		screenPos = Input.mousePosition
+		//screenPos = leapController.GetComponent(LeapController).Pos
 		ray = cam.ScreenPointToRay (screenPos)
 		enter as single;
 		xyPlane.Raycast (ray, enter)
