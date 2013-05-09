@@ -10,7 +10,6 @@ class CharacterMove (MonoBehaviour):
 	public finish as GameObject
 	
 	
-	
 	def Awake ():
 		rbody = rigidbody
 	
@@ -22,11 +21,7 @@ class CharacterMove (MonoBehaviour):
 		*/
 		
 		hit as RaycastHit
-		
-		/*
-		if rbody.velocity.y > 10:
-			rbody.velocity.y = 0
-		*/
+	
 		
 		/*
 		if Physics.Raycast(ray, hit, 1.2):
@@ -35,8 +30,6 @@ class CharacterMove (MonoBehaviour):
 				
 			else:
 				rbody.AddForce (Vector3 (acceleration * (1-(rbody.velocity.x / maxSpeed)), 0, 0))
-		else:
-			rbody.AddForce (Vector3 (acceleration * (1-(rbody.velocity.x / maxSpeed)), 0, 0))
 		*/
 		
 		if Physics.Raycast(rbody.position, Vector3.right, 0.51):
@@ -51,8 +44,7 @@ class CharacterMove (MonoBehaviour):
 			
 		if rbody.position.y < 0:
 			Application.LoadLevel(Application.loadedLevel)
-			
-		
+	
 	def OnCollisionEnter (collision as Collision):
 		if (collision.collider == chaos.collider):
 			Application.LoadLevel(Application.loadedLevel)
