@@ -26,6 +26,12 @@ class CharacterMove (MonoBehaviour):
 				
 			else:
 				rbody.AddForce (Vector3 (acceleration * (1-(rbody.velocity.x / maxSpeed)), 0, 0))
+				
+		if Physics.Raycast(rbody.position, Vector3.down, 1.2) and Input.GetButtonDown ("Jump"):
+			rbody.velocity.y += jumpSpeed
+			
+		if rbody.position.y < 0:
+			Application.LoadLevel(Application.loadedLevel)
 	
 	def OnCollisionEnter (collision as Collision):
 		if (collision.collider == chaos.collider):
