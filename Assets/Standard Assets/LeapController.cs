@@ -38,7 +38,7 @@ public class LeapController : MonoBehaviour{
 	{
 		get
 		{
-		  	return Input.GetButtonDown("W") && isFinger;// && !isTouch;	
+		  	return Input.GetButtonDown("Make") && isFinger;// && !isTouch;	
 		}
 	}
 	
@@ -46,7 +46,7 @@ public class LeapController : MonoBehaviour{
 	{
 		get
 		{
-			return Input.GetButton("W");//isTouch;	
+			return Input.GetButton("Make");//isTouch;	
 		}
 	}
 	
@@ -54,7 +54,7 @@ public class LeapController : MonoBehaviour{
 	{
 		get
 		{
-			return Input.GetButtonDown("W");// isTouch && !lastTouch;
+			return Input.GetButtonDown("Make");// isTouch && !lastTouch;
 		}
 	}
 	
@@ -62,7 +62,7 @@ public class LeapController : MonoBehaviour{
 	{
 		get
 		{
-			return Input.GetButtonUp("W");//!isTouch && lastTouch;
+			return Input.GetButtonUp("Make");//!isTouch && lastTouch;
 		}
 	}
 	
