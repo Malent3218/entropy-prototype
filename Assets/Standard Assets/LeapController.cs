@@ -5,20 +5,48 @@ using Leap;
 public class LeapController : MonoBehaviour{
 	
 	public Controller controller;
+	public GameObject fingerThreshold;
 	private Frame lastFrame;
 	private Vector2 pos;
 	[SerializeField]
 	public float tolerance = 50.0f;
+	public float zValue = 0.0f;
+	public float prevZValue;
+	private bool isFinger;
 	private bool isTouch;
 	private bool lastTouch;
 	private Vector palmNormal;
 	private bool swipeUp;
 	
+	public float getTolerance
+	{
+		get
+		{
+			return tolerance;
+		}
+	}
+	
+	public float getZValue
+	{
+		get
+		{
+			return zValue;
+		}
+	}
+	
+	public bool isFingerNotTouched
+	{
+		get
+		{
+		  	return Input.GetButtonDown("W") && isFinger;// && !isTouch;	
+		}
+	}
+	
 	public bool getTouch
 	{
 		get
 		{
-			return isTouch;	
+			return Input.GetButton("W");//isTouch;	
 		}
 	}
 	
@@ -26,7 +54,7 @@ public class LeapController : MonoBehaviour{
 	{
 		get
 		{
-			return isTouch && !lastTouch;
+			return Input.GetButtonDown("W");// isTouch && !lastTouch;
 		}
 	}
 	
@@ -34,7 +62,7 @@ public class LeapController : MonoBehaviour{
 	{
 		get
 		{
-			return !isTouch && lastTouch;
+			return Input.GetButtonUp("W");//!isTouch && lastTouch;
 		}
 	}
 	
@@ -96,23 +124,31 @@ public class LeapController : MonoBehaviour{
 			float enter;
 			plane.Raycast(intersect, out enter);
 			*/
+			isFinger = true;
 			Leap.Screen screen = controller.LocatedScreens[0];
 			float[] posArray = screen.Intersect(frame.Fingers.Frontmost, false).ToFloatArray();
 			pos = new Vector2(posArray[0], posArray[1]);
 			//pos = intersect.GetPoint(enter);
 			pos.x = Mathf.Lerp(0, UnityEngine.Screen.width, (pos.x+200)/400.0f);
 			pos.y = Mathf.Lerp(0, UnityEngine.Screen.height, (pos.y-50)/250.0f);
-			if (frame.Fingers.Frontmost.TipPosition.ToFloatArray()[2] <= -tolerance)
+			zValue = frame.Fingers.Frontmost.TipPosition.ToFloatArray()[2];
+			if (zValue <= -tolerance)
 			{
 				isTouch = true;
+				if(zValue < prevZValue)
+					tolerance = -(zValue+5);
 			}
 			else
 			{
 				isTouch = false;
 			}
+			if(isTouch == false && zValue > -50)
+				tolerance = 50;
+			prevZValue = zValue;
 		}
 		else
 		{
+			isFinger = false;
 			pos	= new Vector2(0, 0);
 			isTouch = false;
 		}
