@@ -6,6 +6,7 @@ class CharacterMove (MonoBehaviour):
 	public acceleration as single
 	public rbody as Rigidbody
 	public chaos as GameObject
+	public jumpSpeed as single
 	
 	def Awake ():
 		rbody = rigidbody
@@ -17,8 +18,6 @@ class CharacterMove (MonoBehaviour):
 		
 		hit as RaycastHit
 		
-		if rbody.velocity.y > 10:
-			rbody.velocity.y = 0
 		
 		if Physics.Raycast(ray, hit, 1.1):
 			if Vector3.Angle(Vector3.left,hit.normal) < 90:
@@ -30,7 +29,7 @@ class CharacterMove (MonoBehaviour):
 		if Physics.Raycast(rbody.position, Vector3.down, 1.2) and Input.GetButtonDown ("Jump"):
 			rbody.velocity.y += jumpSpeed
 			
-		if rbody.position.y < 0:
+		if rbody.position.y < -5:
 			Application.LoadLevel(Application.loadedLevel)
 	
 	def OnCollisionEnter (collision as Collision):
